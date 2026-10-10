@@ -1,0 +1,392 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Seva Alexeev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* layout: edge-to-edge tiles, no gaps and no frames. columns differ in width, rows are equal height.
+   every section is about one screen tall, with plenty of empty space inside its tiles.
+   tiles alternate black / white in DOM order (a true checkerboard); gradient tiles never touch each other.
+   gradients move in hard steps on scroll and on hover. */
+:root {
+  --bg: #fff;
+  --fg: #000;
+  --g1: linear-gradient(90deg, #C24B3F, #D98A3D, #C9B23A, #5FA05A, #3F7BA8, #6A4B9C, #A84B7A, #C24B3F);
+  --gv: linear-gradient(180deg, #B5432F, #C97A3A, #A8A03A, #4F8F55, #2F6B94, #5A3F8F, #B5432F);
+  --gl: linear-gradient(90deg, #E7A79E, #EFC48F, #E4D98C, #AAD3A6, #9EC3DD, #B8A4D6, #DDA4C1, #E7A79E);
+  --serif: 'Times New Roman', Times, 'Liberation Serif', serif;
+  --mono: 'JetBrains Mono', 'IBM Plex Mono', 'Space Mono', ui-monospace, Menlo, monospace;
+  --t-s: .5rem;
+  --t-m: .625rem;
+  --t-l: .9rem;
+  --t-xl: clamp(1.15rem, 1.8vw, 1.6rem);
+  --t-st: clamp(.95rem, 1.3vw, 1.2rem);
+  --t-xxl: clamp(1.75rem, 3.8vw, 3.4rem);
+  --gx: 0;
+  --pad: clamp(22px, 3.6vw, 64px);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; border-radius: 0; }
+body {
+  margin: 0;
+  background: #fff;
+  color: #000;
+  font-family: var(--serif);
+  font-size: var(--t-m);
+  font-weight: 400;
+  line-height: 1.55;
+  text-transform: lowercase;
+  overflow-x: hidden;
+}
+h1, h2, h3, p, dl, dd { margin: 0; padding: 0; }
+h1, h2, h3 { font-weight: 700; text-wrap: balance; line-height: 1.1; }
+button { font: inherit; text-transform: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+:root:not([data-ui]) [data-lang="en"],
+:root[data-ui="ru"] [data-lang="en"],
+:root[data-ui="en"] [data-lang="ru"] { display: none; }
+
+.mono { font-family: var(--mono); text-transform: uppercase; font-size: var(--t-s); line-height: 1.3; font-weight: 400; }
+.mono b { font-weight: 700; }
+.none { text-transform: none; }
+
+/* tiles */
+.band { display: grid; grid-template-columns: minmax(0, 1fr); }
+.cell { position: relative; min-width: 0; overflow: hidden; padding: var(--pad); background: var(--bg); color: var(--fg); display: flex; flex-direction: column; gap: 1rem; }
+.w { --bg: #fff; --fg: #000; }
+.k { --bg: #000; --fg: #fff; }
+.lab { padding-inline: clamp(14px, 1.6vw, 22px); }
+
+/* gradient tiles */
+.g, .fillg {
+  --bg: #fff; --fg: #000;
+  color: #000;
+  background-color: #fff;
+  background-image: var(--g1);
+  background-size: 960px 100%;
+  background-repeat: repeat-x;
+  background-position: calc(var(--gx) * -1px) 0;
+}
+.g.gt { background-image: var(--g1); }
+.g { min-height: 200px; }
+
+/* hover: hard swap to a vertical gradient that steps in place */
+.g:hover, .hv:hover {
+  --bg: #fff; --fg: #000;
+  color: #000;
+  background-color: #fff;
+  background-image: var(--gv);
+  background-size: 100% 640px;
+  background-repeat: repeat-y;
+  background-position: 0 0;
+  animation: gy .8s steps(8) infinite;
+}
+@keyframes gy { from { background-position: 0 0; } to { background-position: 0 640px; } }
+
+.studio-t,
+.studio-t:hover { color: #fff; }
+
+/* checker patterns */
+.strip { height: 24px; background: repeating-conic-gradient(#000 0 25%, #fff 0 50%) 0 0 / 24px 24px; }
+.pic { min-height: 220px; background: repeating-conic-gradient(#000 0 25%, #fff 0 50%) 0 0 / 24px 24px; padding: 0; }
+.pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.cap { position: absolute; left: 0; right: 0; bottom: 0; background: #000; color: #fff; padding: 10px var(--pad); }
+
+/* links: plain text */
+.lnk { color: inherit; text-decoration: none; align-self: flex-start; }
+.lnk:hover { background: var(--fg); color: var(--bg); }
+.btn {
+  align-self: flex-start;
+  display: inline-block;
+  background: var(--fg);
+  color: var(--bg);
+  padding: .55rem .9rem;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  font-size: var(--t-s);
+  line-height: 1.2;
+}
+.btn:hover { background: #fff; color: #000; }
+.btn .onl { display: none; }
+.btn.on .onl { display: inline; }
+.btn.on .off { display: none; }
+.lang { position: fixed; top: env(safe-area-inset-top, 0px); right: 0; z-index: 10; padding: .7rem 1rem; background: #fff; color: #000; }
+.lang:hover { background: #000; color: #fff; }
+.lang:focus-visible { outline-offset: -4px; }
+
+/* hero */
+.hero-main { justify-content: space-between; gap: 2rem; }
+.name { display: flex; flex-direction: column; font-size: var(--t-xxl); line-height: .92; }
+.pos { font-family: var(--mono); text-transform: uppercase; font-size: .7rem; line-height: 1.3; font-weight: 400; }.vmcell { padding: 0; }
+.vm { position: absolute; inset: 0; overflow: hidden; }
+.vm-track { animation: vm 40s linear infinite; }
+.vm-half { display: flex; flex-direction: column; font-family: var(--mono); text-transform: uppercase; font-size: var(--t-s); line-height: 2; padding-inline: 10px; white-space: nowrap; color: #fff; }
+@keyframes vm { to { transform: translateY(-50%); } }
+
+/* headings and items */
+.ttl { justify-content: flex-end; }
+.h-xl { font-size: var(--t-xl); }
+.statement { font-size: var(--t-st); line-height: 1.15; }
+.item { min-height: 220px; justify-content: space-between; }
+.itxt { display: flex; flex-direction: column; gap: .7rem; }
+.item h3 { font-size: var(--t-l); }
+.item p { max-width: 52ch; }
+.text .cell { min-height: 200px; }
+
+/* portfolio */
+.card { gap: 1.1rem; }
+.card-h { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.card-h h3 { font-size: var(--t-l); }
+.tap { display: grid; gap: .9rem; }
+.tap dt { margin-bottom: .15rem; }
+.player { margin-top: auto; padding-top: 1.4rem; display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; }
+.bar { flex: 1 1 5rem; height: 8px; background: repeating-conic-gradient(var(--fg) 0 25%, var(--bg) 0 50%) 0 0 / 8px 8px; }
+.bar i { display: block; height: 100%; width: 0; }
+.note[hidden] { display: none; }
+
+.studio .pic { min-height: 260px; }
+
+.chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; min-width: 0; }
+.chip { background: var(--bg); color: var(--fg); padding: 1.1rem .6rem; min-height: 4rem; display: flex; align-items: center; justify-content: center; text-align: center; }
+
+.contact { gap: 1rem; min-height: 200px; justify-content: space-between; }
+.big { font-size: var(--t-xl); font-weight: 700; line-height: 1.1; }
+.contact .mono { overflow-wrap: anywhere; }
+.foot { flex-direction: row; justify-content: space-between; align-items: center; flex-wrap: wrap; padding-block: 22px; }
+.foot .lnk { align-self: auto; }
+
+@media (min-width: 860px) {
+  .band { grid-template-columns: var(--cols); }
+  .sec { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; }
+  .sec > .band { flex: 1 1 0; }
+  .sec > .band.head { flex: 0 0 46vh; }
+  .sec > .band.footer { flex: 0 0 auto; }
+  .pic, .studio .pic { min-height: 0; }
+  .chips { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .item, .text .cell, .contact { min-height: 0; }
+  .text .cell:nth-child(2) { justify-content: flex-end; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vm-track { animation: none; }
+  .g:hover, .hv:hover { animation: none; }
+}
+
+</style>
+<script>
+(function () {
+  var v;
+  try { v = localStorage.getItem('ui'); } catch (e) {}
+  if (v !== 'ru' && v !== 'en') { v = ((navigator.language || 'ru').slice(0, 2) === 'ru') ? 'ru' : 'en'; }
+  document.documentElement.dataset.ui = v;
+  document.documentElement.lang = v;
+})();
+</script>
+<!--
+  DEMO CONTENT: project names, studio details, contact handles and the email address are placeholders.
+  Photos are placeholders: put an <img src="data:..." alt="..."> inside any ".pic" cell.
+  Audio: set data-src="..." on a ".player" element.
+-->
+
+<button id="lang" class="lang mono" type="button" aria-label="язык / language"><span data-lang="ru">en</span><span data-lang="en">ru</span></button>
+<main id="top">
+<header class="sec hero"><div class="band hero-band" style="--cols:minmax(0,6fr) minmax(0,5fr) minmax(0,1fr)"><div class="cell w hero-main" ><p class="mono">seva alexeev / 2026<br><span data-lang="ru">музыкальный продюсер</span><span data-lang="en">music producer</span></p><h1 class="name"><span>seva</span><span>alexeev</span></h1><p class="pos"><span data-lang="ru">я слышу тебя настоящего. и помогу услышать другим.</span><span data-lang="en">i hear you true. and i'll help others hear you.</span></p></div><div class="cell k pic" >
+<img src="img/black avatar.jpg" alt="Seva Alexeev in the studio">  
+<div class="cap mono"><span data-lang="ru">фото: моя голова, летающая в космосе, обалдеть!</span><span data-lang="en">photo: my head is flying in space, wow!</span></div></div><div class="cell g vmcell" aria-hidden="true"><div class="vm"><div class="vm-track"><div class="vm-half">
+  <span>jungle is massive</span><span>MK ULTRA</span><span>fight the power</span><span>remember yourself</span><span>turn on</span><span>tune in</span><span>drop out</span><span>fuck bach</span><span>mondriam was a liar</span>
+<span>boom bye bye</span><span>white rabbit</span><span>secret power of music</span><span>lucy in the sky</span><span>skrrr</span><span>tutti frutti</span><span>43% burnt</span><span>k.west</span><span>vamp</span>
+<span>rockers</span><span>2-tone</span><span>zulu</span><span>truth is out of style</span><span>40oz. to Freedom</span><span>come out to show them</span><span>my war</span><span>americ anfootball</span><span>james brown</span>
+<span>r.i.p steeve albini</span><span>Om</span><span>modern lovers</span><span>goa</span><span>trojan</span><span>no new york</span><span>steppers</span><span>irie</span><span>bass boss</span>
+<span>i will be heared</span><span>only shallow</span><span>i wanna be adored</span><span>voodoo people</span><span>sugarhill</span><span>mothership connection</span><span>goo goo muck</span>
+<span>jungle is massive</span><span>MK ULTRA</span><span>fight the power</span><span>remember yourself</span><span>turn on</span><span>tune in</span><span>drop out</span><span>fuck bach</span><span>mondriam was a liar</span>
+<span>boom bye bye</span><span>white rabbit</span><span>secret power of music</span><span>lucy in the sky</span><span>skrrr</span><span>tutti frutti</span><span>43% burnt</span><span>k.west</span><span>vamp</span>
+<span>rockers</span><span>2-tone</span><span>zulu</span><span>truth is out of style</span><span>40oz. to Freedom</span><span>come out to show them</span><span>my war</span><span>americ anfootball</span><span>james brown</span>
+<span>r.i.p steeve albini</span><span>Om</span><span>modern lovers</span><span>goa</span><span>trojan</span><span>no new york</span><span>steppers</span><span>irie</span><span>bass boss</span>
+<span>i will be heared</span><span>only shallow</span><span>i wanna be adored</span><span>voodoo people</span><span>sugarhill</span><span>mothership connection</span><span>goo goo muck</span>
+<span>jungle is massive</span><span>MK ULTRA</span><span>fight the power</span><span>remember yourself</span><span>turn on</span><span>tune in</span><span>drop out</span><span>fuck bach</span><span>mondriam was a liar</span>
+<span>boom bye bye</span><span>white rabbit</span><span>secret power of music</span><span>lucy in the sky</span><span>skrrr</span><span>tutti frutti</span><span>43% burnt</span><span>k.west</span><span>vamp</span>
+<span>rockers</span><span>2-tone</span><span>zulu</span><span>truth is out of style</span><span>40oz. to Freedom</span><span>come out to show them</span><span>my war</span><span>americ anfootball</span><span>james brown</span>
+<span>r.i.p steeve albini</span><span>Om</span><span>modern lovers</span><span>goa</span><span>trojan</span><span>no new york</span><span>steppers</span><span>irie</span><span>bass boss</span>
+<span>i will be heared</span><span>only shallow</span><span>i wanna be adored</span><span>voodoo people</span><span>sugarhill</span><span>mothership connection</span><span>goo goo muck</span>
+</div></div></div></div></div></header>
+<div class="strip" aria-hidden="true"></div>
+<section class="sec" id="about">
+<div class="band head" style="--cols:minmax(0,7fr) minmax(0,1.4fr) minmax(0,3.6fr)"><div class="cell g hg" aria-hidden="true"></div><div class="cell w lab" ><span class="mono"><b>01</b> / <span data-lang="ru">обо мне</span><span data-lang="en">about</span></span></div><div class="cell k ttl" ><h2 class="statement"><span data-lang="ru">пока индустрия оптимизирует звук под алгоритмы, я оптимизирую его под человека.</span><span data-lang="en">While the industry optimizes sound for algorithms, I optimize it for the human</span></h2></div></div>
+<div class="band text" style="--cols:minmax(0,4fr) minmax(0,3fr) minmax(0,5fr)"><div class="cell w" ><p class="body" data-lang="ru">я работаю с гитарно-ориентированной музыкой в очень широком спектре жанров: инди, альтернатива, метал, хардкор, джаз, фьюжн, соул, регги и world music. 
+  будучи профессиональным гастролирующим музыкантом и признаным автором песен, я чувствую эту музыку на кончиках пальцев.
+</p><p class="body" data-lang="en">i work with guitar‑oriented music across a very wide range of genres: indie, alternative, metal, hardcore, jazz, fusion, soul, reggae, and world music. 
+  as a professional touring musician and a realized songwriter, i feel this music at my fingertips.
+</p></div><div class="cell k" ><p class="body" data-lang="ru">главной задачей в продакшне для меня является создание произведения, не похожего по звучанию ни на что, что было до этого. 
+разумеется, с полным пониманием и уважением контекста всей предшествующей музыки и общепринятым представлениям о её актуальном звучании. <br> <br>
+не уже ли вы не слышали, что люди скоро заменят искусственный интеллект? нам нужно быть готовыми к этому...
+</p><p class="body" data-lang="en">
+  The main task in production for me is to create a piece that does not sound like anything that has come before. 
+of course, with full understanding and respect for the context of all previous music and generally accepted ideas about the actual sound. <br> <br>
+Have you heard that humans will soon replace artificial intelligence? We need to get ready fo this...
+</p></div><div class="cell w" ><p class="body" data-lang="ru">
+я работаю с музыкальным материалом с позиции современного искусства, и выступаю резко против большинства устоявшихся практик массового продакшна.
+они часто противоречат физиологии восприятия звука, не принимают в расчёт единственную реальную ценность на сегодня - индивидуальность артиста, его точки зрения и его творческого пути.
+хаотичная садистическая и алчная природа таких практик очевидна. <br> <br>
+моя техническая база - Berklee, Шиллингер и Handbook for Sound Engineer. фундамент моего художественного видения - SVA Academy. 
+</p><p class="body" data-lang="en">I work with musical material from the perspective of contemporary art and strongly oppose most established practices in mass production. It's often contradicts the physiology of sound perception and doesn't take into account the only real value today — the artist’s individuality, the unique point of view, and the creative path. This chaotic, sadistic, and greedy nature of such practices is obvious. <br> <br>. My technical foundation is Berklee, Schillinger, and Handbook for Sound Engineer. The foundation of my artistic vision is SVA Academy.
+</p><p class="body" data-lang="ru"></p><p class="body" data-lang="en"></p></div></div>
+</section>
+<div class="strip" aria-hidden="true"></div>
+<section class="sec" id="process">
+<div class="band head" style="--cols:minmax(0,1.4fr) minmax(0,3.6fr) minmax(0,7fr)"><div class="cell k lab" ><span class="mono"><b>02</b> / <span data-lang="ru">процесс</span><span data-lang="en">process</span></span></div><div class="cell w ttl" ><h2 class="h-xl"><span data-lang="ru">как мы работаем</span><span data-lang="en">how we work</span></h2></div><div class="cell g hg" aria-hidden="true"></div></div>
+<div class="band steps" style="--cols:minmax(0,2fr) minmax(0,3fr) minmax(0,2fr) minmax(0,3fr) minmax(0,2fr)"><div class="cell w hv item" ><span class="mono">01</span><div class="itxt"><h3><span data-lang="ru">слушание</span><span data-lang="en">listening</span></h3><p class="" data-lang="ru">
+до того как что-то менять, я слушаю. демо, голос, дыхание между строчками. песня обычно уже знает, чего хочет. моя задача - услышать это раньше, чем появится первое решение.</p>
+<p class="" data-lang="en">Before I change anything, I listen. demo, voice, breathing between the lines. usually the song already knows what it wants. my task is to hear it before the first solution appears.</p>
+</div></div><div class="cell k hv item" ><span class="mono">02</span><div class="itxt"><h3><span data-lang="ru">разговор</span><span data-lang="en">conversation</span></h3>
+<p class="" data-lang="ru">
+мы говорим о релизе, о том, зачем он тебе, и о том, что в треке уже работает. я задаю вопросы о твоих целях, задачах, ощущениях, чувствах и эмоциях. техника здесь не играет никакой роли.</p>
+<p class="" data-lang="en">We’re talking about the release, why you need it, and what’s already working in the track. I’m asking questions about your goals, objectives, sensations, feelings, and emotions. The technique doesn’t play any role here.</p>
+</div></div><div class="cell w hv item" ><span class="mono">03</span><div class="itxt"><h3><span data-lang="ru">проба</span><span data-lang="en">first try</span></h3>
+<p class="" data-lang="ru">мы садимся в студии и пробуем. первые дубли, случайные ошибки, неожиданные тембры и техниеские решения. поверь, моя наслушанность и знание истории музыки оправдает любые эксперименты. параллельно я введу тебя в состояние, в котором творческие зажимы и старые программы начнут отходить на второй план. я не верю в конкуренцию, не верю в насилие, не разделяю на "хорошо" и "плохо", на "правильно" и "неправильно", и передам это состояние тебе. Только продолжай творить.</p>
+<p class="" data-lang="en">We sit in the studio and try things out. The first takes, random mistakes, unexpected timbres, and technical solutions. Believe me, my ear for music and my knowledge of music history will justify any experiments. At the same time, I’ll put you in a state where creative blocks and old patterns will start to fade into the background. I don’t believe in competition, I don’t believe in violence, I don’t divide things into “good” and “bad,” “right” and “wrong,” and I’ll pass this state on to you. Just keep creating.</p>
+</div></div><div class="cell k hv item" ><span class="mono">04</span><div class="itxt"><h3><span data-lang="ru">отбор</span><span data-lang="en">selecting</span></h3>
+<p class="" data-lang="ru">самый сложный навык - искусство кнопки "delete". необходимо избавиться от всего лишнего, и здесь я руководствуюсь не столько абстрактными и чусвтвенными категориями, сколько техническими параметрами физики звука. иногда мы спорим, и это полезно.</p>
+<p class="" data-lang="en">The most difficult skill is the art of the “delete” button. You need to get rid of everything superfluous, and here I’m guided not so much by abstract and emotional categories as by the technical parameters of sound physics. Sometimes we argue, and that’s useful.</p>
+</div></div><div class="cell w hv item" ><span class="mono">05</span><div class="itxt"><h3><span data-lang="ru">продакшн</span><span data-lang="en">producing</span></h3>
+<p class="" data-lang="ru">работа с референсами, сведение, мастеринг, финальные правки. мои компетенции выходят далеко за пределы звукозаписи, и я могу быть рядом до релиза и после него, пока песня не найдёт своих слушателей</p>
+<p class="" data-lang="en">Working with references, mixing, mastering, final edits. My expertise extends far beyond recording, and I can be there before and after the release, until the song finds its audience.</p></div></div></div>
+</section>
+<div class="strip" aria-hidden="true"></div>
+<section class="sec" id="work">
+<div class="band head" style="--cols:minmax(0,7fr) minmax(0,1.4fr) minmax(0,3.6fr)"><div class="cell g hg" aria-hidden="true"></div><div class="cell w lab" ><span class="mono"><b>03</b> / <span data-lang="ru">работы</span><span data-lang="en">selected work</span></span></div><div class="cell k ttl" ><h2 class="h-xl"><span data-lang="ru">что получилось</span><span data-lang="en">what came out</span></h2></div></div>
+<div class="band cards" style="--cols:minmax(0,5fr) minmax(0,3fr) minmax(0,4fr)"><div class="cell w hv card" ><div class="card-h"><h3>soundlea / юность под землёй</h3><span class="mono">2024</span></div><p class="mono">full production</p><p class="mono">shoegaze, emo, slacker</p><dl class="tap"><div><dt class="mono"><span data-lang="ru">задача</span><span data-lang="en">task</span></dt><dd><span data-lang="ru">сформировать и выразить новый голос независимой локальной сцены</span><span data-lang="en">to form and express a new voice for an independent local scene</span></dd></div><div><dt class="mono"><span data-lang="ru">подход</span><span data-lang="en">approach</span></dt><dd><span data-lang="ru">DIY, грамотное использование подвального помещения и лоуфайного оборуования с глубоким анализом редких жанровых течений</span><span data-lang="en">DIY, competent use of the basement studio and low‑fi equipment, with an in‑depth analysis of rare genre trends.</span></dd></div><div><dt class="mono"><span data-lang="ru">результат</span><span data-lang="en">result</span></dt><dd><span data-lang="ru">попадание в списки лучших альбомов года по версии многих критиков и СМИ</span><span data-lang="en">Making it onto the lists of the best albums of the year according to many critics and music media</span></dd></div></dl><div class="player" data-src="audio/sl.mp3">
+<button class="btn" type="button"><span class="off"><span data-lang="ru">слушать фрагмент</span><span data-lang="en">play fragment</span></span><span class="onl"><span data-lang="ru">стоп</span><span data-lang="en">stop</span></span></button>
+<div class="bar"><i class="fillg"></i></div><span class="mono">4:35</span>
+<span class="mono note" hidden><span data-lang="ru">файл не подключён</span><span data-lang="en">no file yet</span></span></div></div><div class="cell k hv card" ><div class="card-h"><h3>painfinder / st</h3><span class="mono">2025</span></div><p class="mono">producer, recording, mix</p><p class="mono">mathcore, deathcore</p><dl class="tap"><div><dt class="mono"><span data-lang="ru">задача</span><span data-lang="en">task</span></dt><dd><span data-lang="ru">выразить новые ценности эпохи метамодерна через форму дэткор музыки</span><span data-lang="en">To express the new values of the metamodern era through the form of deathcore music.</span></dd></div><div><dt class="mono"><span data-lang="ru">подход</span><span data-lang="en">approach</span></dt><dd><span data-lang="ru">синтез живой DIY записи с новейшими техническими инновациями студийной пост-обработки, фит с основателями российской маткор сцены - группой "правда"</span><span data-lang="en">synthesis of live DIY recording with the latest technical innovations in studio post‑processing, featuring a collaboration with the founders of the Russian mathcore scene — the band “Pravda”.</span></dd></div><div><dt class="mono"><span data-lang="ru">результат</span><span data-lang="en">result</span></dt><dd><span data-lang="ru">группа причастна к зарождению абсолютно новой музыкальной волны, не имеющией аналогов в мире, признанной музыкальными критиками и кор-аудиторией</span><span data-lang="en">The band is involved in the emergence of an entirely new musical wave, unparalleled in the world, recognized by music critics and the core audience.</span></dd></div></dl><div class="player" data-src="audio/pf.mp3">
+<button class="btn" type="button"><span class="off"><span data-lang="ru">слушать фрагмент</span><span data-lang="en">play fragment</span></span><span class="onl"><span data-lang="ru">стоп</span><span data-lang="en">stop</span></span></button>
+<div class="bar"><i class="fillg"></i></div><span class="mono">2:30</span>
+<span class="mono note" hidden><span data-lang="ru">файл не подключён</span><span data-lang="en">no file yet</span></span></div></div><div class="cell w hv card" ><div class="card-h"><h3>Настя Гаврилова / разбуди меня завтра</h3><span class="mono">2025</span></div><p class="mono">mix</p><p class="mono">jazz, hip-hop</p><dl class="tap"><div><dt class="mono"><span data-lang="ru">задача</span><span data-lang="en">task</span></dt><dd><span data-lang="ru">объединить перфоманс молодых джазовых виртуозов с продакшном ветеранов хип-хопа и даб музыки</span><span data-lang="en">Combine the performance of young jazz virtuosos with the production of hip‑hop and dub veterans.</span></dd></div><div><dt class="mono"><span data-lang="ru">подход</span><span data-lang="en">approach</span></dt><dd><span data-lang="ru">междугородние командировки и обширные брейншторм сессии, множество студийных эскпериментов по сплавлению элементов различных жанров</span><span data-lang="en">Long‑distance business trips and extensive brainstorming sessions, numerous studio experiments involving the fusion of elements from various genres.</span></dd></div><div><dt class="mono"><span data-lang="ru">результат</span><span data-lang="en">result</span></dt><dd><span data-lang="ru">мощный музыкальный манифест, многочисленные интервью на радио, выступления на масштабных фестивалях</span><span data-lang="en">A powerful musical manifesto, numerous radio interviews, performances at large‑scale festivals.</span></dd></div></dl><div class="player" data-src="audio/ng.mp3">
+<button class="btn" type="button"><span class="off"><span data-lang="ru">слушать фрагмент</span><span data-lang="en">play fragment</span></span><span class="onl"><span data-lang="ru">стоп</span><span data-lang="en">stop</span></span></button>
+<div class="bar"><i class="fillg"></i></div><span class="mono">5:05</span>
+<span class="mono note" hidden><span data-lang="ru">файл не подключён</span><span data-lang="en">no file yet</span></span></div></div></div>
+<div class="band cards" style="--cols:minmax(0,4fr) minmax(0,5fr) minmax(0,3fr)"><div class="cell k hv card" ><div class="card-h"><h3>Divya Shakti / Mahadeva</h3><span class="mono">2026</span></div><p class="mono">mix</p><p class="mono">new age, kirtan</p><dl class="tap"><div><dt class="mono"><span data-lang="ru">задача</span><span data-lang="en">task</span></dt><dd><span data-lang="ru">смикшировать практически забракованную лайв-запись, объединив традиционный индийский состав музыкантов с бас-гитарой</span><span data-lang="en">To mix a live recording that was almost rejected, combining a traditional Indian lineup of musicians with a bass guitar.</span></dd></div><div><dt class="mono"><span data-lang="ru">подход</span><span data-lang="en">approach</span></dt><dd><span data-lang="ru">поиск точки соприкосновения разрозненных музыкальных традиций через даб музыку, хирургическое исправление дефектов записи</span><span data-lang="en">Finding common ground among disparate musical traditions through dub music, surgically correcting recording defects.</span></dd></div><div><dt class="mono"><span data-lang="ru">результат</span><span data-lang="en">result</span></dt><dd><span data-lang="ru">мистическое откровение Шивы</span><span data-lang="en">Shiva’s mystical revelation</span></dd></div></dl><div class="player" data-src="audio/ds.mp3">
+<button class="btn" type="button"><span class="off"><span data-lang="ru">слушать фрагмент</span><span data-lang="en">play fragment</span></span><span class="onl"><span data-lang="ru">стоп</span><span data-lang="en">stop</span></span></button>
+<div class="bar"><i class="fillg"></i></div><span class="mono">5:52</span>
+<span class="mono note" hidden><span data-lang="ru">файл не подключён</span><span data-lang="en">no file yet</span></span></div></div><div class="cell w hv card" ><div class="card-h"><h3>кварто-квинтовый круг / Чей-то последний закат</h3><span class="mono">2026</span></div><p class="mono">producer, recording, mix</p><p class="mono">indie, alternative</p><dl class="tap"><div><dt class="mono"><span data-lang="ru">задача</span><span data-lang="en">task</span></dt><dd><span data-lang="ru">передать энергию и голос подросткового девчачьего пауэр-трио максимально честно</span><span data-lang="en">To convey the energy and voice of a teenage girl power trio as authentically as possible.</span></dd></div><div><dt class="mono"><span data-lang="ru">подход</span><span data-lang="en">approach</span></dt><dd><span data-lang="ru">качественная подготовка студии к записи ван-тейк перфоманса, захват звучания пространства, нативное редактирование технических промахов, минимум пост-обработки</span><span data-lang="en">High‑quality studio preparation for recording a one‑take performance, capturing the sound of the space, native editing of technical flaws, minimal post‑processing.</span></dd></div><div><dt class="mono"><span data-lang="ru">результат</span><span data-lang="en">result</span></dt><dd><span data-lang="ru">передача уникального эмоционального и чувственного состояния, юношеской непосредственности и творческой свободы</span><span data-lang="en">The conveyance of a unique emotional and sensory state, youthful spontaneity, and creative freedom.</span></dd></div></dl><div class="player" data-src="audio/kkk.mp3">
+<button class="btn" type="button"><span class="off"><span data-lang="ru">слушать фрагмент</span><span data-lang="en">play fragment</span></span><span class="onl"><span data-lang="ru">стоп</span><span data-lang="en">stop</span></span></button>
+<div class="bar"><i class="fillg"></i></div><span class="mono">3:12</span>
+<span class="mono note" hidden><span data-lang="ru">файл не подключён</span><span data-lang="en">no file yet</span></span></div></div><div class="cell g hg" ><p class="mono"><span data-lang="ru">больше работ по запросу</span><span data-lang="en">more work on request</span></p></div></div>
+</section>
+<div class="strip" aria-hidden="true"></div>
+<section class="sec" id="services">
+<div class="band head" style="--cols:minmax(0,7fr) minmax(0,1.4fr) minmax(0,3.6fr)"><div class="cell g hg" aria-hidden="true"></div><div class="cell k lab" ><span class="mono"><b>04</b> / <span data-lang="ru">услуги</span><span data-lang="en">services</span></span></div><div class="cell w ttl" ><h2 class="h-xl"><span data-lang="ru">чем могу помочь</span><span data-lang="en">where i can help</span></h2></div></div>
+<div class="band svc" style="--cols:minmax(0,4fr) minmax(0,5fr) minmax(0,3fr)"><div class="cell k hv item" ><span aria-hidden="true"></span><div class="itxt"><h3><span data-lang="ru">продюсирование под ключ</span><span data-lang="en">full production</span></h3>
+<p class="" data-lang="ru">от первого демо до готового релиза. я отвечаю за всё: за форму, за звук, за решения, которые делают песню сильнее. ты приносишь материал и остаёшься собой — я не даю ему потеряться по дороге.</p>
+<p class="" data-lang="en">from the first demo to a finished release. i'm responsible for everything: the shape, the sound, the decisions that make the song stronger. you bring the material and stay yourself — i make sure it doesn't get lost along the way</p></div></div><div class="cell w hv item" ><span aria-hidden="true"></span><div class="itxt"><h3><span data-lang="ru">аранжировка</span><span data-lang="en">arrangement</span></h3>
+<p class="" data-lang="ru">работаю с тем, что слушатель не замечает, но чувствует: скрытые приёмы звукового воздействия, встроенные в форму так, что песня управляет вниманием раньше, чем человек это осознаёт.</p>
+<p class="" data-lang="en">i work with things what the listener doesn't notice but feels: hidden techniques of sonic influence, built into the form so that the song guides attention before the person is aware of it.</p></div></div><div class="cell k hv item" ><span aria-hidden="true"></span><div class="itxt"><h3>
+  <span data-lang="ru">запись и сессии</span><span data-lang="en">recording sessions</span></h3><p class="" data-lang="ru">писал в топовых студиях страны и знаю их как инструменты — что каждая может дать конкретной песне, от первой пробы до финального дубля.</p>
+  <p class="" data-lang="en">i work in the top studios and know them as instruments — what each one can give to a particular song, from the first take to the final one.</p></div></div></div>
+<div class="band svc" style="--cols:minmax(0,3fr) minmax(0,3fr) minmax(0,6fr)"><div class="cell w hv item" ><span aria-hidden="true"></span><div class="itxt"><h3><span data-lang="ru">сведение и мастеринг</span><span data-lang="en">mixing and mastering</span>
+</h3><p class="" data-lang="ru">смотрю широко, слышу глубоко и знаю очень много.</p><p class="" data-lang="en">I see broadly, hear deeply, and know a lot.</p>
+</div></div><div class="cell k hv item" ><span aria-hidden="true"></span><div class="itxt"><h3>
+  <span data-lang="ru">концертная звукорежиссура (foh)</span><span data-lang="en">live sound engineering (foh)</span></h3>
+  <p class="" data-lang="ru">годы за пультом — от подпольных клубов до масштабных фестивалей. я знаю, чем живой звук был и чем он может быть, — и не работаю в традиции, которая этого не помнит и никого не трогает.</p>
+  <p class="" data-lang="en">Years behind the console — from underground clubs to large festivals. I know what live sound was and what it could be — and I don’t work within a tradition that doesn’t remember that and doesn’t touch anyone.</p></div></div><div class="cell w hv item" ><span aria-hidden="true"></span><div class="itxt"><h3>
+    <span data-lang="ru">консультация</span><span data-lang="en">consultation</span></h3><p class="" data-lang="ru">разбор демо, анализ кейса, позиционирование артиста, стратегия выпуска и развития, обсуждение форматов сотрудничества.</p>
+    <p class="" data-lang="en">demo review, case analysis, artist positioning, release and development strategy, discussion of working formats.</p></div></div></div>
+</section>
+<div class="strip" aria-hidden="true"></div>
+<section class="sec" id="studio">
+<div class="band studio" style="--cols:minmax(0,1.4fr) minmax(0,6.6fr) minmax(0,4fr)"><div class="cell k lab" ><span class="mono"><b>05</b> / <span data-lang="ru">студия</span><span data-lang="en">studio</span></span></div>
+<div class="cell w pic tallpic" ><img src="img/shab.jpg" alt="Seva Alexeev studio in Moscow">
+  
+  <div class="cap mono"><span data-lang="ru">фото: студия, рабочий беспорядок</span><span data-lang="en">photo: the studio, working mess</span></div></div><div class="cell g studio-t gt" >
+<p class="body" data-lang="ru">это наша собственная студия в москве. три минуты от станции. внутри время идёт иначе, и это не метафора. здесь можно работать круглосуточно и не заметить, как наступит утро. <br> <br>
+можно остаться на несколько дней и спланировать работу так, как она того требует — без спешки, без оглядки на часы. у нас есть комната отдыха, кухня, большая коллекция редких пластинок и по-настоящему уникальных книг по теории музыки с разных концов мира, которая собиралась годами и не имеет аналогов. <br> <br>
+у нас несколько линий мониторинга, и особое внимание уделяется сабу. вообще-то у нас очень много лишних вещей, нашей задачей было создать место, где можно раскрыться в неформальной обстановке, забыть все правила и пойти на самые смелые творческие эксперименты.
+</p>
+<p class="body" data-lang="en">This is our own studio in Moscow. It’s three minutes from the station. Inside, time flows differently, and that’s not a metaphor. You can work whole night here and not even notice when morning comes. <br> <br>
+You can stay here for a few days and plan your work the way it requires — without rushing, without looking at the clock. There’s a chill room, a kitchen, and a large collection of rare records and truly unique books on music theory from different parts of the world — a collection that has been amassed over the years and has no equal. <br> <br>
+We have several monitoring lines, and special attention is paid to the sub. Actually, we have a lot of unnecessary things; our goal was to create a place where you can open up in an informal setting, forget all the rules, and take on the most ambitious creative experiments.</p></div></div>
+</section>
+<div class="strip" aria-hidden="true"></div>
+<section class="sec" id="partners">
+<div class="band head" style="--cols:minmax(0,7fr) minmax(0,1.4fr) minmax(0,3.6fr)"><div class="cell g hg" aria-hidden="true"></div><div class="cell k lab" ><span class="mono"><b>06</b> / <span data-lang="ru">партнёры</span><span data-lang="en">partners</span></span></div><div class="cell w ttl" ><h2 class="h-xl"><span data-lang="ru">музыканты и команда</span><span data-lang="en">musicians and crew</span></h2></div></div>
+<div class="band partners" style="--cols:minmax(0,4fr) minmax(0,6fr) minmax(0,2fr)"><div class="cell k" ><p class="body" data-lang="ru">я работаю не один. за мной — круг сессионных музыкантов, аранжировщиков, инженеров и организаторов. это люди, которые играют с артистами первой величины и стоят на главных сценах страны. <br>
+
+  <br>ритм-секция, струнные, духовые, перкуссия, бэк-вокал. если вашей музыке нужен состав — я знаю, кому позвонить. <br>
+
+  <br>и знаю, кому не звонить.</p><p class="body" data-lang="en">i don't work alone. there's a circle of session players, arrangers, engineers, and event managers behind me. the people who play with first-tier artists and stand on the main stages of our country. <br>
+
+ <br> rhythm section, strings, horns, percussion, backing vocals. if your music needs a band — i know who to call. <br>
+
+  <br>and i know who not to call.</p></div><div class="chips" aria-hidden="true"><div class="chip hv mono w">drums</div><div class="chip hv mono k">bass</div><div class="chip hv mono w">guitar</div><div class="chip hv mono k">keys</div><div class="chip hv mono w">strings</div><div class="chip hv mono k">winds</div><div class="chip hv mono w">percussion</div><div class="chip hv mono k">vocals</div><div class="chip hv mono w">recording engineer</div><div class="chip hv mono k">mastering</div></div><div class="cell g hg" aria-hidden="true"></div></div>
+</section>
+<div class="strip" aria-hidden="true"></div>
+<section class="sec" id="contact">
+<div class="band head" style="--cols:minmax(0,7fr) minmax(0,1.4fr) minmax(0,3.6fr)"><div class="cell g hg" aria-hidden="true"></div><div class="cell w lab" ><span class="mono"><b>07</b> / <span data-lang="ru">контакт</span><span data-lang="en">contact</span></span></div><div class="cell k ttl" ><h2 class="statement"><span data-lang="ru">давай сделаем что-нибудь вместе.</span><span data-lang="en">let's do something together.</span></h2></div></div>
+<div class="band contacts" style="--cols:minmax(0,4fr) minmax(0,3fr) minmax(0,5fr)"><div class="cell w hv contact" ><a class="lnk big" href="https://t.me/MonkeyGoneToHeaven19" target="_blank" rel="noopener">telegram</a><span class="mono none">@MonkeyGoneToHeaven19</span></div><div class="cell k hv contact" ><a class="lnk big" href="https://www.instagram.com/seva_alexeev/" target="_blank" rel="noopener">instagram</a><span class="mono none">@seva_alexeev</span></div><div class="cell w hv contact" ><a class="lnk big" href="mailto:alex.ramm19@yandex.ru">email</a><span class="mono none" id="addr">alex.ramm19@yandex.ru</span></div></div>
+<div class="band footer" style="--cols:minmax(0,1fr)"><div class="cell k foot" ><span class="mono">© 2026 seva alexeev</span><a class="lnk mono" href="#top"><span data-lang="ru">наверх</span><span data-lang="en">back to top</span></a></div></div>
+</section>
+</main>
+<script>
+(function () {
+  var root = document.documentElement;
+
+  /* language toggle: hard swap, remembered */
+  document.getElementById('lang').addEventListener('click', function () {
+    var n = root.dataset.ui === 'ru' ? 'en' : 'ru';
+    root.dataset.ui = n;
+    root.lang = n;
+    try { localStorage.setItem('ui', n); } catch (e) {}
+  });
+
+  /* gradients jump in hard 48px steps as the page scrolls */
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var STEP = 48, last = -1;
+  function tick() {
+    var v = Math.floor(window.scrollY * 0.7 / STEP) * STEP;
+    if (v !== last) { last = v; root.style.setProperty('--gx', v); }
+    requestAnimationFrame(tick);
+  }
+  if (!reduce) requestAnimationFrame(tick);
+
+  /* audio fragments: set data-src on a .player to connect a file */
+  var current = null;
+  Array.prototype.forEach.call(document.querySelectorAll('.player'), function (p) {
+    var btn = p.querySelector('button');
+    var fill = p.querySelector('.bar i');
+    var note = p.querySelector('.note');
+    var audio = null;
+    function stop() {
+      if (audio) { audio.pause(); }
+      btn.classList.remove('on');
+    }
+    btn.addEventListener('click', function () {
+      var src = p.getAttribute('data-src');
+      if (!src) {
+        note.hidden = false;
+        setTimeout(function () { note.hidden = true; }, 1800);
+        return;
+      }
+      if (!audio) {
+        audio = new Audio(src);
+        audio.addEventListener('timeupdate', function () {
+          if (audio.duration) { fill.style.width = (audio.currentTime / audio.duration * 100) + '%'; }
+        });
+        audio.addEventListener('ended', function () { btn.classList.remove('on'); fill.style.width = '0'; });
+      }
+      if (audio.paused) {
+        if (current && current !== p && current._stop) { current._stop(); }
+        current = p; p._stop = stop;
+        var r = audio.play();
+        if (r && r.catch) { r.catch(function () { btn.classList.remove('on'); }); }
+        btn.classList.add('on');
+      } else {
+        stop();
+      }
+    });
+  });
+})();
+
+</script>
+
+</body></html>
